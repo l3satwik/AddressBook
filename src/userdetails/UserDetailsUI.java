@@ -328,8 +328,23 @@ public class UserDetailsUI extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 System.out.println("Something went wrong. Please contact the developer with these details: "+ex);
             }
-            
+            nameTxt.setText("");
+            idTxt.setText("");
+            addTxt.setText("");
+            phnTxt.setText("");
         }
+        else if(oper == "Delete"){
+            int id = Integer.parseInt(idTxt.getText());
+            try{
+                PreparedStatement ps = con.prepareStatement("delete from users where id=?;");
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            } catch (SQLException ex){
+                System.out.println("Something went wrong. Please contact the developer with these details: "+ex);
+            }
+            idTxt.setText("");
+        }
+        
     }//GEN-LAST:event_submitBtnActionPerformed
 
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
