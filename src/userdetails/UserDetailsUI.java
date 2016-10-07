@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,6 +30,7 @@ public class UserDetailsUI extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_projects", "root", null);
         }
         catch(Exception ex){
+            JOptionPane.showMessageDialog(null,"Connection can not be established!");
             System.out.println("Connection can not be established due to: "+ex);
         }
     }
@@ -340,15 +342,17 @@ public class UserDetailsUI extends javax.swing.JFrame {
             String name = nameTxt.getText();
             String phn = phnTxt.getText();
             String add = addTxt.getText();
-            int id = Integer.parseInt(idTxt.getText());
             try {
+                int id = Integer.parseInt(idTxt.getText());
                 PreparedStatement ps = con.prepareStatement("insert into users values(?,?,?,?);");
                 ps.setInt(1, id);
                 ps.setString(2, name);
                 ps.setString(3, phn);
                 ps.setString(4, add);
                 ps.executeUpdate();
-            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Record inserted successfully!");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,"Something went wrong. Call the ambulance!");
                 System.out.println("Something went wrong. Please contact the developer with these details: "+ex);
             }
             nameTxt.setText("");
@@ -363,7 +367,9 @@ public class UserDetailsUI extends javax.swing.JFrame {
                 PreparedStatement ps = con.prepareStatement("delete from users where id=?;");
                 ps.setInt(1, id);
                 ps.executeUpdate();
+                JOptionPane.showMessageDialog(null,"Record deleted successfully!");
             } catch (SQLException ex){
+                JOptionPane.showMessageDialog(null,"Something went wrong. Call the ambulance!");
                 System.out.println("Something went wrong. Please contact the developer with these details: "+ex);
             }
             idTxt.setText("");
@@ -381,7 +387,9 @@ public class UserDetailsUI extends javax.swing.JFrame {
                 ps.setString(3, add);
                 ps.setInt(4, id);
                 ps.executeUpdate();
+                JOptionPane.showMessageDialog(null,"Record updated successfully!");
             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Something went wrong. Call the ambulance!");
                 System.out.println("Something went wrong. Please contact the developer with these details: "+ex);
             }
             nameTxt.setText("");
