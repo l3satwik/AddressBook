@@ -344,7 +344,26 @@ public class UserDetailsUI extends javax.swing.JFrame {
             }
             idTxt.setText("");
         }
-        
+        else if(oper == "Update"){
+            String name = nameTxt.getText();
+            String phn = phnTxt.getText();
+            String add = addTxt.getText();
+            int id = Integer.parseInt(idTxt.getText());
+            try {
+                PreparedStatement ps = con.prepareStatement("update users set name=?, phonenum=?, address=? where id=?");
+                ps.setString(1, name);
+                ps.setString(2, phn);
+                ps.setString(3, add);
+                ps.setInt(4, id);
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                System.out.println("Something went wrong. Please contact the developer with these details: "+ex);
+            }
+            nameTxt.setText("");
+            idTxt.setText("");
+            addTxt.setText("");
+            phnTxt.setText("");
+        }
     }//GEN-LAST:event_submitBtnActionPerformed
 
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
