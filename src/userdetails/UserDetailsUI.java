@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,9 +33,33 @@ public class UserDetailsUI extends javax.swing.JFrame {
         }
     }
     
+    public void displayTable(ResultSet rs){
+        DefaultTableModel table = new DefaultTableModel();
+        table = (DefaultTableModel)dataTable.getModel();
+        table.setRowCount(0);
+        try{
+            while (rs.next()) {
+                table.addRow(new Object[]{rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)});
+            }
+        } catch(Exception ex){
+            System.out.println("Contact the dev: "+ex);
+        }
+    }
+    
+    public void displayTableAll(){
+        try{
+            PreparedStatement ps = con.prepareStatement("select * from users;");
+            ResultSet r = ps.executeQuery();
+            displayTable(r);
+        } catch(Exception ex){
+            System.out.println("Contact the dev: "+ex);
+        }
+    }
+    
     public UserDetailsUI() {
         initComponents();
         establishConnection();
+        displayTableAll();
         idLabel.setVisible(false);
         idTxt.setVisible(false);
         nameLabel.setVisible(false);
@@ -330,6 +355,7 @@ public class UserDetailsUI extends javax.swing.JFrame {
             idTxt.setText("");
             addTxt.setText("");
             phnTxt.setText("");
+            displayTableAll();
         }
         else if(oper == "Delete"){
             int id = Integer.parseInt(idTxt.getText());
@@ -341,6 +367,7 @@ public class UserDetailsUI extends javax.swing.JFrame {
                 System.out.println("Something went wrong. Please contact the developer with these details: "+ex);
             }
             idTxt.setText("");
+            displayTableAll();
         }
         else if(oper == "Update"){
             String name = nameTxt.getText();
@@ -361,6 +388,7 @@ public class UserDetailsUI extends javax.swing.JFrame {
             idTxt.setText("");
             addTxt.setText("");
             phnTxt.setText("");
+            displayTableAll();
         }
         else if(oper == "Search"){
             String name = nameTxt.getText();
@@ -384,9 +412,9 @@ public class UserDetailsUI extends javax.swing.JFrame {
                 ps.setString(3, add);
                 ps.setInt(4, id);
                 rs = ps.executeQuery();
-                while(rs.next()){
-                    System.out.println("ID: "+rs.getInt(1)+" Name: "+rs.getString(2)+" Num: "+rs.getString(3)+" Add: "+rs.getString(4));
-                }
+//                while(rs.next()){
+//                    System.out.println("ID: "+rs.getInt(1)+" Name: "+rs.getString(2)+" Num: "+rs.getString(3)+" Add: "+rs.getString(4));
+//                }
             } catch (SQLException ex) {
                 System.out.println("Something went wrong. Please contact the developer with these details: "+ex);
             }
@@ -394,6 +422,7 @@ public class UserDetailsUI extends javax.swing.JFrame {
             idTxt.setText("");
             addTxt.setText("");
             phnTxt.setText("");
+            displayTable(rs);
         }
     }//GEN-LAST:event_submitBtnActionPerformed
 
