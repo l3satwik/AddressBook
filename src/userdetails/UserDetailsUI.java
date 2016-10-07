@@ -312,6 +312,24 @@ public class UserDetailsUI extends javax.swing.JFrame {
 
     private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
         // TODO add your handling code here:
+        String oper = submitBtn.getText();
+        if(oper == "Insert"){
+            String name = nameTxt.getText();
+            String phn = phnTxt.getText();
+            String add = addTxt.getText();
+            int id = Integer.parseInt(idTxt.getText());
+            try {
+                PreparedStatement ps = con.prepareStatement("insert into users values(?,?,?,?);");
+                ps.setInt(1, id);
+                ps.setString(2, name);
+                ps.setString(3, phn);
+                ps.setString(4, add);
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                System.out.println("Something went wrong. Please contact the developer with these details: "+ex);
+            }
+            
+        }
     }//GEN-LAST:event_submitBtnActionPerformed
 
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
